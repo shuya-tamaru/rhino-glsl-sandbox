@@ -1,0 +1,62 @@
+## Build results
+bin/
+obj/
+[Bb]uild/
+[Bb]uilds/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+## Visual Studio working folder
+.vs/
+.vscode/
+
+## Rider
+.idea/
+*.sln.iml
+
+## Mono Auto Generated Files
+mono_crash.*
+
+## DotNet
+*.dll
+*.exe
+*.pdb
+*.cache
+*.mdb
+
+## NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Rhino Plugin (.rhp) ÇÃÉrÉãÉhê¨â ï®
+*.rhp
+
+## Logs
+*.log
+
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## Test results
+TestResults/
+*.TestResults
+*.coverage
+*.coveragexml
+
+## Others
+*.dbmdl
+*.bak
+*.tmp
+*.orig
