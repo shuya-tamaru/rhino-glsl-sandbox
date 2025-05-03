@@ -27,32 +27,6 @@ namespace BoxClipping
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
-            //var go = new GetObject();
-            //go.SetCommandPrompt("Select a box (Brep or Extrusion)");
-            //go.GeometryFilter = ObjectType.Brep | ObjectType.Extrusion;
-            //go.SubObjectSelect = false;
-            //go.Get();
-            //if (go.CommandResult() != Result.Success)
-            //    return go.CommandResult();
-
-            //var objRef = go.Object(0);
-            //var geometry = objRef.Geometry();
-
-            //Brep brep = null;
-
-            //if (geometry is Brep b)
-            //    brep = b;
-            //else if (geometry is Extrusion extrusion)
-            //    brep = extrusion.ToBrep();
-
-            //if (brep == null || !brep.IsBox())
-            //{
-            //    RhinoApp.WriteLine("Selected object is not a valid box.");
-            //    return Result.Failure;
-            //}
-
-            //var id = objRef.ObjectId;
-
             var conduit = new BoxClippingConduit();
             conduit.Enabled = true;
             doc.Views.Redraw();
@@ -77,11 +51,6 @@ namespace BoxClipping
 
 
 
-            //public BoxClippingConduit(Guid boxId)
-            //{
-            //    _boxId = boxId;
-            //}
-
             protected override void DrawForeground(DrawEventArgs e)
             {
 
@@ -90,31 +59,7 @@ namespace BoxClipping
                     RhinoApp.WriteLine("❌ GL context not available.");
                     return;
                 }
-                //var rhObj = RhinoDoc.ActiveDoc.Objects.Find(_boxId);
-                //if (rhObj == null)
-                //    return;
 
-                //GeometryBase geometry = rhObj.Geometry;
-                //Brep brep = null;
-
-                //if (geometry is Brep b)
-                //    brep = b;
-                //else if (geometry is Extrusion extrusion)
-                //    brep = extrusion.ToBrep();
-
-                //if (brep == null || !brep.IsBox())
-                //{
-                //    RhinoApp.WriteLine("The object is no longer a valid box.");
-                //    return;
-                //}
-
-                //var bbox = brep.GetBoundingBox(true);
-                //var boxMin = bbox.Min;
-                //var boxMax = bbox.Max;
-
-                //RhinoApp.WriteLine($"Box bounds: {boxMin} ~ {boxMax}");
-
-                // OpenTKにバインディングさせる（最初の1回だけ）
                 if (!_glLoaded)
                 {
                     GL.LoadBindings(new RhinoOpenTKBindings());
@@ -127,14 +72,6 @@ namespace BoxClipping
                     string fragmentPath = Path.Combine(shaderDir, "fragment.glsl");
 
                     _program = ShaderLoader.LoadShaderProgram(vertexPath, fragmentPath);
-                    _uBoxMinLocation = GL.GetUniformLocation(_program, "uBoxMin");
-                    _uBoxMaxLocation = GL.GetUniformLocation(_program, "uBoxMax");
-
-
-                    if (_uBoxMinLocation == -1 || _uBoxMaxLocation == -1)
-                    {
-                        RhinoApp.WriteLine("⚠️ Uniform location not found.");
-                    }
 
                     //頂点
                     float[] vertices = new float[]
@@ -186,8 +123,6 @@ namespace BoxClipping
                 GL.BindVertexArray(_vao);
                 GL.DrawArrays(PrimitiveType.TriangleFan, 0, 4);
 
-                // オプション：表示用のボックスを描く
-                //e.Display.DrawBox(new Box(bbox), System.Drawing.Color.Red);
             }
         }
     }
