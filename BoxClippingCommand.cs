@@ -1,15 +1,11 @@
 ﻿using System;
 using Rhino;
 using Rhino.Commands;
-using Rhino.DocObjects;
 using Rhino.Display;
-using Rhino.Geometry;
-using Rhino.Input.Custom;
 using OpenTK.Graphics.OpenGL4;
 using BoxClipping.OpenGL;
 using BoxClipping.OpenTK;
 using System.IO;
-using Rhino.Render.ChangeQueue;
 
 
 namespace BoxClipping
@@ -35,28 +31,19 @@ namespace BoxClipping
         }
 
 
-
-
-
         public class BoxClippingConduit : DisplayConduit
         {
-            private readonly Guid _boxId;
             private bool _glLoaded = false;
             private int _program;
             private int _vbo;
             private int _vao;
-            private int _uBoxMinLocation;
-            private int _uBoxMaxLocation;
             private DateTime _startTime = DateTime.Now;
-
-
-
             protected override void DrawForeground(DrawEventArgs e)
             {
 
                 if (!DisplayPipeline.MakeDefaultOpenGLContextCurrent())
                 {
-                    RhinoApp.WriteLine("❌ GL context not available.");
+                    RhinoApp.WriteLine("GL context not available.");
                     return;
                 }
 
@@ -113,10 +100,8 @@ namespace BoxClipping
                 }
                 else
                 {
-                    RhinoApp.WriteLine("⚠️ uResolution uniform not found.");
+                    RhinoApp.WriteLine("uResolution uniform not found.");
                 }
-
-
                 GL.Enable(EnableCap.Blend);
                 GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
